@@ -1,0 +1,6 @@
+lazygit/.config/lazygit/state.yml
+
+tmux/.config/tmux/plugins/
+!tmux/.config/tmux/plugins/tpm/
+
+nvim/.config/nvim/plugin
