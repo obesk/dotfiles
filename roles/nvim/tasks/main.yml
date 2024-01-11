@@ -1,0 +1,32 @@
+---
+- name: install dependencies to build nvim from source
+  become: true
+  apt:
+    name:
+      - build-essential
+      - ninja-build 
+      - gettext
+      - cmake
+      - unzip
+      - curl 
+    state: present 
+
+- name: install required dependencies for runtime
+  become: true
+  apt:
+    name:
+      - git
+      - ripgrep
+      - clang
+
+- name: build nvim release version
+  community.general.make:
+    chdir: src/src/nvim
+    params:
+      CMAKE_BUILD_TYPE: Release
+
+- name: install nvim release version
+  become: true
+  community.general.make:
+    chdir: src/src/nvim
+    target: install

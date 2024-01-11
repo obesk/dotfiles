@@ -1,0 +1,55 @@
+---
+- name: install dev dependencies
+  become: true
+  apt:
+    name:
+      # building tools
+      - x11-xkb-utils
+      - build-essential
+      - ninja-build 
+      - gettext
+      - cmake
+      - unzip
+      - curl 
+      - gcc
+      - g++
+      - clang
+      # tools i actually use
+      - bash-completion
+      - tmux
+      - git
+    state: present 
+
+- name: download and install rustup
+  become: yes
+  shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  args:
+    creates: "{{ ansible_env.HOME }}/.cargo/bin/rustc"
+
+# necessary to have rust in the path
+- name: resource .profile for the current session
+  shell: source "{{ ansible_env.HOME }}/.profile"
+  args:
+    executable: /bin/bash
+  changed_when: false
+
+
+- name: install rust tools
+  community.general.cargo:
+    name: 
+      - ripgrep # better grep (dependency of telescope.nvim)
+      - fd-find # better find (dependency of telescope.nvim)
+      - exa # better ls
+      - bat # better cat
+      - bob-nvim # version manager for vim
+      - starhip # shell prompt
+      - gitui # better lazygit
+      - wiki-tui 
+      - speedtest-rs
+      # - zellij # better tmux (?)
+
+- name: install neovim stable with bob
+  command: bob use stable
+  args:
+    creates: "{{ ansible_env.HOME }}/.local/share/bob/nvim-bin/nvim"
+

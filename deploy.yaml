@@ -1,0 +1,7 @@
+---
+- name: deploying config
+  hosts: localhost
+  roles:
+    - role: stow # this should stay on top
+    - role: dev
+    # - role: nvim

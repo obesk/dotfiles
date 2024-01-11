@@ -1,0 +1,21 @@
+# ignore git files
+\.git
+\.gitignore
+\.gitmodules
+
+# ignore ansible files
+^/roles
+^/hosts
+^/deps
+^/ansible.cfg
+
+
+# ignore other files
+^/README.md
+^/deploy-.*.yml
+^/requirements.yml
+^/ansible.cfg
+^/Vagrantfile
+^/install
+^/\.stowrc
+^/\.vagrant

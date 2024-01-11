@@ -9,7 +9,7 @@ require "_telescope"
 require "others"
 require "_lualine"
 require "_neovide"
-require "_harpoon"
+--require "_harpoon"
 require "_nerdtree"
 require "_nvim_tree"
 
