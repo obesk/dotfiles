@@ -20,11 +20,25 @@
       - git
     state: present 
 
+- name: ensure conflicting packages are not installed
+  become: true
+  apt: 
+    name:
+      - neovim
+      # maybe add rust ?
+
 - name: download and install rustup
-  become: yes
+  become: true
   shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   args:
     creates: "{{ ansible_env.HOME }}/.cargo/bin/rustc"
+
+- name: ensure rustup is updated
+  shell:|
+    result=$(rustup update)
+    echo "$result"
+  register: rustup_update_result
+      changed_when: "rustup_update_result.stdout.find('unchanged') == -1"
 
 # necessary to have rust in the path
 - name: resource .profile for the current session
@@ -32,7 +46,6 @@
   args:
     executable: /bin/bash
   changed_when: false
-
 
 - name: install rust tools
   community.general.cargo:
@@ -47,6 +60,7 @@
       - wiki-tui 
       - speedtest-rs
       # - zellij # better tmux (?)
+    locked: true
 
 - name: install neovim stable with bob
   command: bob use stable
