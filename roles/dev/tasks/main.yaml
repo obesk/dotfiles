@@ -28,7 +28,6 @@
       # maybe add rust ?
 
 - name: download and install rustup
-  become: true
   shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   args:
     creates: "{{ ansible_env.HOME }}/.cargo/bin/rustc"
