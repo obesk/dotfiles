@@ -33,11 +33,11 @@
     creates: "{{ ansible_env.HOME }}/.cargo/bin/rustc"
 
 - name: ensure rustup is updated
-  shell:|
-    result=$(rustup update)
-    echo "$result"
+  shell: ./rustup update
+  args:
+    chdir: "{{ ansible_env.HOME }}/.cargo/bin/"
   register: rustup_update_result
-      changed_when: "rustup_update_result.stdout.find('unchanged') == -1"
+  changed_when: "rustup_update_result.stdout.find('unchanged') == -1"
 
 # necessary to have rust in the path
 - name: resource .profile for the current session
@@ -48,13 +48,14 @@
 
 - name: install rust tools
   community.general.cargo:
+    executable: "{{ ansible_env.HOME }}/.cargo/bin/cargo"
     name: 
       - ripgrep # better grep (dependency of telescope.nvim)
       - fd-find # better find (dependency of telescope.nvim)
       - exa # better ls
       - bat # better cat
       - bob-nvim # version manager for vim
-      - starhip # shell prompt
+      - starship # shell prompt
       - gitui # better lazygit
       - wiki-tui 
       - speedtest-rs
@@ -62,7 +63,8 @@
     locked: true
 
 - name: install neovim stable with bob
-  command: bob use stable
+  command: ./bob use stable
   args:
+    chdir: "{{ ansible_env.HOME }}/.cargo/bin/"
     creates: "{{ ansible_env.HOME }}/.local/share/bob/nvim-bin/nvim"
 
