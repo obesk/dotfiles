@@ -1,20 +1,21 @@
 ---
+# TODO: add virtualbox
 - name: install GUI apps from apt
   become: true
   apt:
     name:
       # add some configurability to gnome
       - gnome-tweaks
-      - dconf
+      - dconf-cli
+      - dconf-editor
       # gui applications i use
-      - firefox # main browser
+      - firefox-esr # main browser
       - chromium # backup browser for the sites that don't support firefox
       - calibre # ebook manager
       - zathura # pdf viewer
       - kitty # terminal emulator 
-      - virtualbox # virtual machines go brrr
-      - virtualbox-ext-pack #  virtualbox extension (do i really need them?)
-      - sublime-text # i use this a my notepad (NVIM SUPERIORITY)
+      # - virtualbox # virtual machines go brrr
+      # - virtualbox-ext-pack #  virtualbox extension (do i really need them?)
       - flatpak # all my homies hate snaps
 
 - name: add the flathub flatpak remote
@@ -31,11 +32,12 @@
       - com.spotify.Client # music
       - com.calibre_ebook.calibre # ebook manager
       - io.dbeaver.DBeaverCommunity # SQL server manger
+      - com.sublimetext.three # i use this a my notepad (NVIM SUPERIORITY)
 
 # copying config
 
 - name: install stow
-  becom: true
+  become: true
   apt:
     name:
       - stow
