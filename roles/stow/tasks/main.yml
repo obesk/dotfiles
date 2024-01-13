@@ -11,5 +11,5 @@
   dandyrow.linux.stow.stow:
     src: . 
     dest: "{{ ansible_env.HOME }}"
-    package: [ kitty, lazygit, nvim, tmux, venv, wallpapers, zathura, bash, fonts]
+    package: [ lazygit, nvim, tmux, venv, bash, fonts]
     force: true

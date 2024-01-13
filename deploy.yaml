@@ -1,7 +1,6 @@
 ---
-- name: deploying config
+- name: deploy of terminal config
   hosts: localhost
   roles:
-    - role: stow # this should stay on top
+    - role: stow
     - role: dev
-    # - role: nvim

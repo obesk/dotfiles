@@ -1,5 +1,6 @@
 ---
-- name: install dev dependencies
+# FIXME: lazygit is missing
+- name: install dev dependencies from apt
   become: true
   apt:
     name:
@@ -20,7 +21,7 @@
       - bash-completion
       - tmux
       - git
-    state: present 
+      - htop
 
 - name: ensure conflicting packages are not installed
   become: true

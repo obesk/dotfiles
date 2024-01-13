@@ -1,0 +1,4 @@
+#!/bin/sh
+
+./install
+ansible-playbook deploy-gui.yaml --ask-become-pass

@@ -11,7 +11,6 @@ require "_lualine"
 require "_neovide"
 --require "_harpoon"
 require "_nerdtree"
-require "_nvim_tree"
 
 -- coloscheme
 vim.o.termguicolors = true

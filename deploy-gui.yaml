@@ -1,0 +1,5 @@
+---
+- name: deploy of DE config
+  hosts: localhost
+  roles:
+    - role: DE # this should stay on top

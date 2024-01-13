@@ -1,0 +1,48 @@
+---
+- name: install GUI apps from apt
+  become: true
+  apt:
+    name:
+      # add some configurability to gnome
+      - gnome-tweaks
+      - dconf
+      # gui applications i use
+      - firefox # main browser
+      - chromium # backup browser for the sites that don't support firefox
+      - calibre # ebook manager
+      - zathura # pdf viewer
+      - kitty # terminal emulator 
+      - virtualbox # virtual machines go brrr
+      - virtualbox-ext-pack #  virtualbox extension (do i really need them?)
+      - sublime-text # i use this a my notepad (NVIM SUPERIORITY)
+      - flatpak # all my homies hate snaps
+
+- name: add the flathub flatpak remote
+  become: true
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+
+- name: install gui apps from flathub
+  community.general.flatpak:
+    name: 
+      - com.discordapp.Discord # chatting app
+      - com.spotify.Client # music
+      - com.calibre_ebook.calibre # ebook manager
+      - io.dbeaver.DBeaverCommunity # SQL server manger
+
+# copying config
+
+- name: install stow
+  becom: true
+  apt:
+    name:
+      - stow
+
+- name: "stow gui apps configs" 
+  dandyrow.linux.stow.stow:
+    src: . 
+    dest: "{{ ansible_env.HOME }}"
+    package: [ kitty, wallpapers, zathura ]
+    force: true
