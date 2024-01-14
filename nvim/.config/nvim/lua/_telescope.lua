@@ -7,12 +7,19 @@ local action_state = require "telescope.actions.state"
 
 local cfg_dir = "~/.config/"
 
+require("telescope").setup {
+	extensions = {
+		file_browser = {}
+	}
+}
+
 local configs = finders.new_table {
 	results = {
-		{ "nvim", cfg_dir .. "nvim" },
-		{ "xmonad", cfg_dir .. "xmonad" },
+		{ "dotfles", "~/.dotfiles" },
+		{ "nvim",    cfg_dir .. "nvim" },
+		{ "xmonad",  cfg_dir .. "xmonad" },
 		{ "systemd", cfg_dir .. "systemd/user" },
-		{ "zsh", cfg_dir .. "zsh" },
+		{ "zsh",     cfg_dir .. "zsh" },
 		{ "scripts", "~/.scripts" },
 	},
 	entry_maker = function(entry)
@@ -37,16 +44,18 @@ local config_picker = function(opts)
 				local sel = action_state.get_selected_entry()
 				vim.cmd(":tabnew")
 				vim.cmd(":tcd " .. sel.value[2])
+				vim.cmd(":e .")
 			end)
 			return true
 		end,
 	}):find()
 end
 
+-- local extensions = require "telescope.extensions"
 
 vim.keymap.set('n', '<C-p>', tel.find_files, {})
 vim.keymap.set('n', '<C-g>', tel.git_files, {})
-vim.keymap.set('n', '<leader>g', tel.live_grep, {})
-vim.keymap.set('n', '<leader>b', tel.buffers, {})
-vim.keymap.set('n', '<leader>c', config_picker, {})
-
+vim.keymap.set('n', '<leader>fg', tel.live_grep, {})
+vim.keymap.set('n', '<leader>fb', tel.buffers, {})
+vim.keymap.set('n', '<leader>fc', config_picker, {})
+-- vim.keymap.set('n', '<leader>tf', extensions.file_browser.file_browser, {})

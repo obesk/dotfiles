@@ -1,7 +1,7 @@
 local lualine = require('lualine')
 
-require('lualine').setup {
-    options = {
-        theme = "catppuccin"
-    }
+lualine.setup {
+	options = {
+		theme = "catppuccin"
+	}
 }

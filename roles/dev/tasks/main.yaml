@@ -17,6 +17,8 @@
       - clang
       - pkg-config
       - libssl-dev
+      - npm # requirement of mason.nvim
+      - nodej # requirement of mason.nvim
       # tools i actually use
       - bash-completion
       - tmux

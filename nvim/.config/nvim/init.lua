@@ -3,14 +3,14 @@
 vim.g.mapleader = " " -- setting the leader key to space
 
 require "plugins"
-require "autocompletion"
+require "_lsp"
 require "treesitter"
 require "_telescope"
 require "others"
 require "_lualine"
-require "_neovide"
---require "_harpoon"
-require "_nerdtree"
+-- require "_neovide"
+-- require "_harpoon"
+-- require "_nerdtree"
 
 -- coloscheme
 vim.o.termguicolors = true
@@ -29,7 +29,7 @@ vim.api.nvim_exec([[
 ]], false)
 
 -- using spaces for haskell
-vim.cmd[[
+vim.cmd [[
 augroup haskell_tab_settings
   autocmd!
   autocmd FileType haskell setlocal expandtab
@@ -80,7 +80,7 @@ vim.keymap.set('v', 'S', ':s/')
 -- switch with the previously opened file
 vim.keymap.set('n', '<leader><TAB>', '<c-6>')
 
--- reload config 
+-- reload config
 vim.keymap.set('n', '<leader>R', ':source $MYVIMRC<CR>')
 
 -- set the scipt on edit as executable
