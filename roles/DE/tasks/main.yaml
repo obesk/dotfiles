@@ -1,5 +1,8 @@
 ---
-# TODO: add virtualbox
+- name: installing xmonad depndencies
+  become: true 
+  apt: 
+
 - name: install GUI apps from apt
   become: true
   apt:
@@ -35,7 +38,6 @@
       - com.sublimetext.three # i use this a my notepad (NVIM SUPERIORITY)
 
 # copying config
-
 - name: install stow
   become: true
   apt:

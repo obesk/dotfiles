@@ -41,13 +41,13 @@ local my_attach = function(client, bufnr)
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-	vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+	vim.keymap.set('n', 'gde', vim.lsp.buf.declaration, bufopts)
 	vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
 	vim.keymap.set('n', 'gs', ":ClangdSwitchSourceHeader<CR>", bufopts)
 	vim.keymap.set('n', 'gh', vim.lsp.buf.hover, bufopts)
 	vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
 	-- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-	vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
+	vim.keymap.set('n', 'gdt', vim.lsp.buf.type_definition, bufopts)
 	vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, bufopts)
 	vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
 end
@@ -59,8 +59,8 @@ local mason_lspconfig = require('mason-lspconfig')
 mason_lspconfig.setup { automatic_installation = true, }
 
 local lspconfig = require('lspconfig')
--- go to https://github.com/neovim/nvim-lspconfig to find new servers
-local servers = { 'rust_analyzer', 'pyright', 'tsserver', 'clangd', 'hls' }
+-- go to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md to find new servers
+local servers = { 'rust_analyzer', 'gopls', 'pyright', 'tsserver', 'clangd', 'hls', 'html', 'htmx' }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup {
 		on_attach = my_attach,

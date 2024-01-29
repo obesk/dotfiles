@@ -3,6 +3,7 @@ test -z "$PROFILEREAD" && source /etc/profile || true
 
 # adding things to path
 source "$HOME/.cargo/env" # addding the rust environment
+export PATH="$HOME/.golang/bin:$PATH" # addding the go environment
 export PATH="$HOME/.local/bin:$PATH" # adding my local scripts
 export PATH="$HOME/.ghcup/bin:$PATH" # adding the haskell environment
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH" # adding bob neovim to path
@@ -13,6 +14,8 @@ export TERMINAL="kitty"
 export BROWSER="firefox"
 export PDF_READER="zathura"
 export FILE_MANAGER="thunar"
+export GOPATH="$HOME/.golang"
+export GOBIN="$HOME/.golang/bin"
 
 # setxkbmap -layout us -variant altgr-intl # setting keyboard layout
 

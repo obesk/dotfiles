@@ -22,7 +22,7 @@ return require('packer').startup(
 		use { 'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup {} end }
 
 		-- expanding the vim keybingins
-		use { 'wellle/targets.vim' }
+		-- use { 'wellle/targets.vim' }
 		use { 'kylechui/nvim-surround' }
 		use { 'michaeljsmith/vim-indent-object' }
 

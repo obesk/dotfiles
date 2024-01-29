@@ -2,16 +2,17 @@ require 'nvim-treesitter.configs'.setup {
 	-- here you can find other languages https://github.com/nvim-treesitter/nvim-treesitter#supported-languages
 	ensure_installed = {
 		"c",
-		"lua",
+		"cpp",
 		"vim",
 		"vimdoc",
+		"rust",
+		"go",
 		"query",
 		"javascript",
 		"css",
 		"html",
 		"bash",
-		"cpp",
-		"rust",
+		"lua",
 		"cmake",
 		"make",
 		"csv",
@@ -37,4 +38,3 @@ require 'nvim-treesitter.configs'.setup {
 }
 
 require 'treesitter-context'.setup()
-
