@@ -20,6 +20,8 @@
       - npm # requirement of mason.nvim
       - nodej # requirement of mason.nvim
       # tools i actually use
+      - fzf
+      - fzf tmux
       - bash-completion
       - tmux
       - git

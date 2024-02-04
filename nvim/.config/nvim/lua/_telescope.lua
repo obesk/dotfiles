@@ -53,7 +53,7 @@ end
 
 -- local extensions = require "telescope.extensions"
 
-vim.keymap.set('n', '<C-p>', tel.find_files, {})
+vim.keymap.set('n', '<C-p>', function() tel.find_files({hidden = true}) end, {})
 vim.keymap.set('n', '<C-g>', tel.git_files, {})
 vim.keymap.set('n', '<leader>fg', tel.live_grep, {})
 vim.keymap.set('n', '<leader>fb', tel.buffers, {})

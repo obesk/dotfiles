@@ -1,7 +1,11 @@
 ---
-- name: installing xmonad depndencies
+- name: installing xmonad related tools
   become: true 
   apt: 
+    - xmoand # xmonad itself
+    - libghc6-xmonad-dev # for xmonad core
+    - libghc6-xmonad-contrib-dev # for xmonad contrib
+    - xmobar # the bar
 
 - name: install GUI apps from apt
   become: true
@@ -17,9 +21,13 @@
       - calibre # ebook manager
       - zathura # pdf viewer
       - kitty # terminal emulator 
+      - zeal # offline documentation
+      - calibre # ebook manager
       # - virtualbox # virtual machines go brrr
       # - virtualbox-ext-pack #  virtualbox extension (do i really need them?)
       - flatpak # all my homies hate snaps
+      # utilities
+      - suckless-tools
 
 - name: add the flathub flatpak remote
   become: true
@@ -33,7 +41,6 @@
     name: 
       - com.discordapp.Discord # chatting app
       - com.spotify.Client # music
-      - com.calibre_ebook.calibre # ebook manager
       - io.dbeaver.DBeaverCommunity # SQL server manger
       - com.sublimetext.three # i use this a my notepad (NVIM SUPERIORITY)
 
@@ -48,5 +55,5 @@
   dandyrow.linux.stow.stow:
     src: . 
     dest: "{{ ansible_env.HOME }}"
-    package: [ kitty, wallpapers, zathura ]
+    package: [ kitty, wallpapers, zathura, xmonad, gtk ]
     force: true

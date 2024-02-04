@@ -1,0 +1,34 @@
+Config { overrideRedirect = False
+       , font     = "MonoLisa Nerd Font 10"
+	   , position = TopH 20
+       , commands = [ Run Weather "LIPE"
+						[ "--template", "<weather> <tempC>°C"
+                        , "-L", "8"
+                        , "-H", "28"
+                        , "--low"   , "lightblue"
+                        , "--normal", "#f8f8f2"
+                        , "--high"  , "red"
+                        ] 36000
+					, Run Locks
+					, Run Memory ["--template", " <usedratio>"] 10
+                    , Run Swap ["--template", "󰩤<usedratio>"] 9
+                    , Run BatteryP ["BAT0"]
+						["-t", "<leftipat><left> <leftbar>"
+						, "-a", "notify-send -u critical 'Battery running out!!'"
+						, "-L", "15"
+						, "-l", "red"
+						, "-H", "80"
+						, "-h", "lightgreen"
+						, "--" 
+						, "--on-icon-pattern", "<fc=#00FF00>󰂄</fc>"
+						, "--idle-icon-pattern", "󰂄"
+						, "-P"
+						] 600
+                    , Run Date "%A <fc=#ff79c6>%d</fc>/%m/%Y <fc=#ff79c6>%H:%M</fc>" "date" 10
+                    , Run XMonadLog
+                    ]
+       , sepChar  = "%"
+       , alignSep = "}{"
+       , template = "%XMonadLog% }{<fc=#ff0000>%locks%</fc> %date% | %battery% | %memory% %swap% | %LIPE%"
+       }
+
