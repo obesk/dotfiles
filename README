@@ -1,0 +1,22 @@
+# WHAT IS THIS ?
+
+# WOW NOW I WANT IT TOO
+
+1. generate an ssh key
+1. push the ssh key to github
+1. clone the repo 
+	```bash
+		git clone https://github.com/robby0070/dotfiles .dotfiles
+	```
+2. create a python virtual environment (optional)
+	```bash
+		sudo apt install python3.11-venv # install the venv package
+		python3 -m venv venv # create the venv
+		. venv/scripts/activate # source the venv			
+	```
+3. run the install script
+	```
+		./install # for terminal-only apps
+		./install_with_gui # for fully fledged DE settings and GUI apps
+	```
+
