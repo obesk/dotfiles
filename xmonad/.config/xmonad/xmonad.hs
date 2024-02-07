@@ -1,3 +1,4 @@
+-- TODO: modularize a bit and check dependencies
 import Categories
 -- import qualified XMonad.Actions.FlexibleResize as Flex
 import qualified Data.Map as M
@@ -27,6 +28,7 @@ import XMonad.Util.NamedScratchpad
 import XMonad.Util.Ungrab
 import XMonad.Layout.NoBorders
 import XMonad.Layout.SimpleFloat
+import XMonad.Actions.CycleWS
 
 term = "kitty"
 browser = "firefox"
@@ -104,8 +106,8 @@ myKeymap =
     ("M-S-<U>", withFocused (sendMessage . MergeAll)),
     ("M-S-<D>", withFocused (sendMessage . UnMerge)),
     ("M-s", spawn "flameshot gui"),
-    ("M-u", onGroup W.focusUp'),
-    ("M-i", onGroup W.focusDown'),
+    ("M-u", onGroup W.focusDown'),
+    ("M-i", onGroup W.focusUp'),
     ("M-j", focusDown),
     ("M-k", focusUp),
     ("M-d", spawn "dmenu_run -i"),
@@ -118,10 +120,11 @@ myKeymap =
     ("M-<Space>", withFocused $ toggleFloating),
     ("M-S-h", namedScratchpadAction scratchpads "htop"),
     ("M-S-t", namedScratchpadAction scratchpads "thunar"),
+    ("M-<Tab>", toggleWS' $ ["NSP"] ++ (map (show . (+ws_per_category * categories)) [1 .. common_workpaces])),
     ("M-`", (XS.modify' nextCategory) >> (focusWs 1))
   ]
-    ++ [("M-" ++ (show i), focusWs i) | i <- [1 .. ws_per_category]] -- move between ws of the category
-    ++ [("M-S-" ++ (show i), moveTo i) | i <- [1 .. ws_per_category]] -- move windows between ws of the categroy
+    ++ [("M-" ++ (show i), focusWs i) | i <- normalWorkspaces] -- move between ws of the category
+    ++ [("M-S-" ++ (show i), moveTo i) | i <- normalWorkspaces] -- move windows between ws of the categroy
     ++ [("M-" ++ (show i), focusCommon (i - ws_per_category)) | i <- [(ws_per_category + 1) .. 9]] -- move to commons ws
     ++ [("M-0", focusCommon 5)] -- adding the zero binding to above
     ++ [("M-S-" ++ (show i), moveToCommon (i - ws_per_category)) | i <- [(ws_per_category + 1) .. 9]] -- move windows to common ws
@@ -129,6 +132,7 @@ myKeymap =
     ++ [("M-<F" ++ (show i) ++ ">", (XS.modify' $ \_ -> toEnum (i - 1) :: WsCategory) >> (focusWs 1)) | i <- [1 .. categories]] -- move between categories
     ++ [("M-S-<F" ++ (show i) ++ ">", applyToRelIndex (toEnum (i - 1) :: WsCategory) W.shift 1) | i <- [1 .. categories]] -- move windows between categories
   where
+    normalWorkspaces = [1 .. ws_per_category]
     focusWs = applyIndex W.greedyView
     moveTo = applyIndex W.shift
     focusCommon = applyCommon W.greedyView
