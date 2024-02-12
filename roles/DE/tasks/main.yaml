@@ -2,7 +2,7 @@
 - name: installing xmonad related tools
   become: true 
   apt: 
-    - xmoand # xmonad itself
+    - xmonad # xmonad itself
     - libghc6-xmonad-dev # for xmonad core
     - libghc6-xmonad-contrib-dev # for xmonad contrib
     - xmobar # the bar
@@ -12,9 +12,9 @@
   apt:
     name:
       # add some configurability to gnome
-      - gnome-tweaks
-      - dconf-cli
-      - dconf-editor
+      # - gnome-tweaks
+      # - dconf-cli
+      # - dconf-editor
       # gui applications i use
       - firefox-esr # main browser
       - chromium # backup browser for the sites that don't support firefox
