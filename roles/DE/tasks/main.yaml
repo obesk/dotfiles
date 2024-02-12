@@ -1,11 +1,14 @@
 ---
-- name: installing xmonad related tools
+- name: installing xmonad
   become: true 
   apt: 
-    - xmonad # xmonad itself
-    - libghc6-xmonad-dev # for xmonad core
-    - libghc6-xmonad-contrib-dev # for xmonad contrib
-    - xmobar # the bar
+    name:
+      - xmonad # xmonad itself
+      - libghc-xmonad-dev # for xmonad core
+      - libghc-xmonad-contrib-dev # for xmonad contrib
+      - xmobar # the bar
+      - dunst
+      - gdm3
 
 - name: install GUI apps from apt
   become: true
