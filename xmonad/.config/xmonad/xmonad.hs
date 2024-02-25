@@ -25,7 +25,6 @@ import XMonad.Util.EZConfig
 import qualified XMonad.Util.ExtensibleState as XS
 import XMonad.Util.Loggers
 import XMonad.Util.NamedScratchpad
-import XMonad.Util.Ungrab
 import XMonad.Layout.NoBorders
 import XMonad.Layout.SimpleFloat
 import XMonad.Actions.CycleWS

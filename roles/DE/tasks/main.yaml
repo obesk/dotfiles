@@ -1,14 +1,37 @@
 ---
-- name: installing xmonad
+# copying config
+- name: install stow
+  become: true
+  apt:
+    name:
+      - stow
+
+- name: "stow gui apps configs" 
+  dandyrow.linux.stow.stow:
+    src: . 
+    dest: "{{ ansible_env.HOME }}"
+    package: [ kitty, wallpapers, zathura, xmonad, gtk ]
+    force: true
+
+- name: installing xmonad tools and dependecies
   become: true 
   apt: 
     name:
-      - xmonad # xmonad itself
-      - libghc-xmonad-dev # for xmonad core
-      - libghc-xmonad-contrib-dev # for xmonad contrib
+      - libx11-dev
+      - libxft-dev
+      - libxinerama-dev
+      - libxrandr-dev
+      - libxss-dev
+      - haskell-stack
       - xmobar # the bar
-      - dunst
-      - gdm3
+      - dunst # notification manager
+      - gdm3 # login manager
+
+- name: install xmonad
+  command: "stack install"
+  args:
+    chdir: "{{ ansible_user_dir }}/.config/xmonad"
+    creates: "{{ ansible_user_dir }}/.local/bin/xmonad"
 
 - name: install GUI apps from apt
   become: true
@@ -47,16 +70,3 @@
       - io.dbeaver.DBeaverCommunity # SQL server manger
       - com.sublimetext.three # i use this a my notepad (NVIM SUPERIORITY)
 
-# copying config
-- name: install stow
-  become: true
-  apt:
-    name:
-      - stow
-
-- name: "stow gui apps configs" 
-  dandyrow.linux.stow.stow:
-    src: . 
-    dest: "{{ ansible_env.HOME }}"
-    package: [ kitty, wallpapers, zathura, xmonad, gtk ]
-    force: true
