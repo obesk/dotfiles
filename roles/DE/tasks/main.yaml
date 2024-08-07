@@ -26,12 +26,35 @@
       - xmobar # the bar
       - dunst # notification manager
       - gdm3 # login manager
+      - picom # compositor
+      - feh # for the wallpaper
 
 - name: install xmonad
   command: "stack install"
   args:
     chdir: "{{ ansible_user_dir }}/.config/xmonad"
     creates: "{{ ansible_user_dir }}/.local/bin/xmonad"
+
+- name: create xmonad.desktop for GDM
+  become: true
+  copy:
+    dest: /usr/share/xsessions/xmonad.desktop
+    content: |
+      [Desktop Entry]
+      Name=XMonad
+      Comment=Lightweight tiling window manager
+      Exec=/etc/X11/Xsession 
+      Type=Application
+      DesktopNames=XMonad
+
+- name: register XMonad as an alternative for x-window-manager
+  become: true
+  alternatives:
+    name: x-window-manager
+    path: "{{ ansible_user_dir }}/.local/bin/xmonad"
+    link: "/usr/bin/x-window-manager"
+    priority: 100
+
 
 - name: install GUI apps from apt
   become: true
@@ -41,7 +64,6 @@
       # - gnome-tweaks
       # - dconf-cli
       # - dconf-editor
-      # gui applications i use
       - firefox-esr # main browser
       - chromium # backup browser for the sites that don't support firefox
       - calibre # ebook manager
@@ -49,6 +71,7 @@
       - kitty # terminal emulator 
       - zeal # offline documentation
       - calibre # ebook manager
+      - flameshot # screenshots
       # - virtualbox # virtual machines go brrr
       # - virtualbox-ext-pack #  virtualbox extension (do i really need them?)
       - flatpak # all my homies hate snaps
@@ -69,9 +92,12 @@
       - com.spotify.Client # music
       - io.dbeaver.DBeaverCommunity # SQL server manger
       - com.sublimetext.three # i use this a my notepad (NVIM SUPERIORITY)
-      - org.kicad.KiCad
-      - md.obsidian.Obsidian
+      # - org.kicad.KiCad # I may need it sometimes in the future
+      - md.obsidian.Obsidian # notes app
+
+# TODO: it does not seem to work
 - name: disable sublime updates
+  become: true
   lineinfile:
     path: /etc/hosts
     line: "127.0.0.1 www.sublimetext.com"

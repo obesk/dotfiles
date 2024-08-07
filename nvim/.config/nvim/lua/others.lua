@@ -20,7 +20,16 @@ require('neoscroll').setup(
 	{ easing = "sine", }
 )
 
-require('sidebar-nvim').setup()
+require("nvim-tree").setup()
+
+-- require('sidebar-nvim').setup({
+-- 	sections = { "datetime", "files", "git" },
+-- 	files = {
+-- 		icon = "",
+-- 		show_hidden = false,
+-- 		ignored_paths = { "%.git$" }
+-- 	}
+-- })
 
 vim.keymap.set({ 'n', 'i' }, '<C-n>', ':Oil<CR>')
 vim.keymap.set('n', '<leader>n', ':UndotreeToggle<CR>')

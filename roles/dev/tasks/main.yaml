@@ -62,14 +62,28 @@
       - bat # better cat
       - bob-nvim # version manager for vim
       - starship # shell prompt
-      - gitui # better lazygit
+      - gitui # better lazygit ?
       - wiki-tui 
       - speedtest-rs
       # - zellij # better tmux (?)
     locked: true
 
 - name: install neovim stable with bob
-  command: ./bob use stable
-  args:
-    chdir: "{{ ansible_env.HOME }}/.cargo/bin/"
-    creates: "{{ ansible_env.HOME }}/.local/share/bob/nvim-bin/nvim"
+  command: bob use stable
+  # args:
+  #   chdir: "{{ ansible_env.HOME }}/.cargo/bin/"
+  #   creates: "{{ ansible_env.HOME }}/.local/share/bob/nvim-bin/nvim"
+
+- name: generate bob bash completions
+  command: bob complete bash
+  register: bob_completion_output
+  changed_when: false
+
+- name: create bob completion
+  become: true
+  copy: 
+    content: "{{ bob_completion_output }}"
+    dest: /etc/bash_completion.d/bob
+    owner: root
+    group: root
+    mode: 0644

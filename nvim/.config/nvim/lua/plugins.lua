@@ -64,7 +64,8 @@ return require('packer').startup(
 		use { "mbbill/undotree" } -- creates a nice undo tree
 
 		-- aspect
-		use { 'sidebar-nvim/sidebar.nvim' } -- sidebar
+		-- use { 'sidebar-nvim/sidebar.nvim' } -- sidebar
+		use { "nvim-tree/nvim-tree.lua" } -- sidebar
 
 		use { 'karb94/neoscroll.nvim' } -- smooth scrolling
 		use { 'nvim-lualine/lualine.nvim' }
