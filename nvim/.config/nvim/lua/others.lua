@@ -16,6 +16,11 @@ require("oil").setup {
 	}
 }
 
+require('neoscroll').setup(
+	{ easing = "sine", }
+)
+
+require('sidebar-nvim').setup()
 
 vim.keymap.set({ 'n', 'i' }, '<C-n>', ':Oil<CR>')
 vim.keymap.set('n', '<leader>n', ':UndotreeToggle<CR>')

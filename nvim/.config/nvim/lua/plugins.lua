@@ -14,7 +14,7 @@ local packer_bootstrap = ensure_packer()
 
 return require('packer').startup(
 	function(use)
-		use 'wbthomason/packer.nvim'
+		use 'wbthomason/packer.nvim' -- needed for the installation
 
 		-- these should already be nvim features
 		use { 'ThePrimeagen/harpoon' }
@@ -22,13 +22,16 @@ return require('packer').startup(
 		use { 'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup {} end }
 
 		-- expanding the vim keybingins
-		-- use { 'wellle/targets.vim' }
+		use { 'wellle/targets.vim' }
 		use { 'kylechui/nvim-surround' }
 		use { 'michaeljsmith/vim-indent-object' }
+		--use { "chrisgrieser/nvim-spider" } -- camel case and snake case motion
+		use { 'bkad/CamelCaseMotion' } -- camel case and snake case motion
+
 
 		--------- vim like an ide --------------
 		use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- chad dialog
-		use { "nvim-telescope/telescope-file-browser.nvim" }
+		-- use { "nvim-telescope/telescope-file-browser.nvim" }
 		use { "stevearc/oil.nvim", requires = 'ryanoasis/vim-devicons' }          -- file management
 		-- use { "startup-nvim/startup.nvim" }
 
@@ -52,18 +55,18 @@ return require('packer').startup(
 		-- TODO: add with friendly-snippets?
 		use { 'L3MON4D3/LuaSnip' } -- Snippets plugin
 		------------------------------------------
-
 		-- git integrations
-		use { "tpope/vim-fugitive" } -- git for chads
+		-- use { "tpope/vim-fugitive" } -- git for chads
 		use { "lewis6991/gitsigns.nvim" }
 
 		-- general utils
-		use { 'christoomey/vim-tmux-navigator' } -- tmux navigation integration
-		use { "mbbill/undotree" }          -- creates a nice undo tree
-
-
+		-- use { 'christoomey/vim-tmux-navigator' } -- tmux navigation integration
+		use { "mbbill/undotree" } -- creates a nice undo tree
 
 		-- aspect
+		use { 'sidebar-nvim/sidebar.nvim' } -- sidebar
+
+		use { 'karb94/neoscroll.nvim' } -- smooth scrolling
 		use { 'nvim-lualine/lualine.nvim' }
 		use { 'ryanoasis/vim-devicons' }
 		use { "lukas-reineke/indent-blankline.nvim" }

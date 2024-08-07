@@ -69,4 +69,9 @@
       - com.spotify.Client # music
       - io.dbeaver.DBeaverCommunity # SQL server manger
       - com.sublimetext.three # i use this a my notepad (NVIM SUPERIORITY)
-
+      - org.kicad.KiCad
+      - md.obsidian.Obsidian
+- name: disable sublime updates
+  lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1 www.sublimetext.com"

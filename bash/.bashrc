@@ -6,3 +6,8 @@ fi
 export SPACESHIP_DIR_TRUNC_REPO=false
 
 eval "$(starship init bash)"
+. "$HOME/.cargo/env"
+
+alias llvm-config="llvm-config-17"
+alias llvm-as="llvm-as-17"
+alias llc="llc-17"

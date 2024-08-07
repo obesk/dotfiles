@@ -17,7 +17,7 @@ export FILE_MANAGER="thunar"
 export GOPATH="$HOME/.golang"
 export GOBIN="$HOME/.golang/bin"
 
-setxkbmap -layout us -variant altgr-intl # setting keyboard layout
+# setxkbmap -layout us -variant altgr-intl # setting keyboard layout
 
 # forces the loading of bashrc on login shells (useful for tmux)
 # this should stay on the bottom
@@ -26,3 +26,7 @@ if [ -n "$BASH_VERSION" -a -n "$PS1" ]; then
 		. "$HOME/.bashrc"
 	fi
 fi
+. "$HOME/.cargo/env"
+
+# fixing kitty strange behaviour
+TERM=xterm-256color
