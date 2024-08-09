@@ -3,6 +3,7 @@ test -z "$PROFILEREAD" && source /etc/profile || true
 
 # adding things to path
 source "$HOME/.cargo/env" # addding the rust environment
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm" # go version manager environment
 export PATH="$HOME/.golang/bin:$PATH" # addding the go environment
 export PATH="$HOME/.local/bin:$PATH" # adding my local scripts
 export PATH="$HOME/.ghcup/bin:$PATH" # adding the haskell environment
