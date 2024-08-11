@@ -1,0 +1,20 @@
+- name: ensure conflicting packages are not installed
+  become: true
+  apt: 
+    name:
+      - neovim
+    state: absent
+
+- name: install neovim stable with bob
+  command: bob use stable
+  args:
+    chdir: "{{ ansible_env.HOME }}/.cargo/bin/"
+    creates: "{{ ansible_env.HOME }}/.local/share/bob/nvim-bin/nvim"
+
+# - name: generate bob bash completions
+#   become: true
+#   shell: bob complete bash > /etc/bash_completion.d/bob
+#   args:
+#     chdir: "{{ ansible_env.HOME }}/.cargo/bin/"
+#     creates: /etc/bash_completion.d/bob
+

@@ -2,6 +2,5 @@
 - name: deploy of DE config
   hosts: localhost
   roles:
-    - role: stow
     - role: dev
     - role: DE 

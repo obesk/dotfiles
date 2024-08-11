@@ -1,0 +1,28 @@
+
+- name: download and install rustup
+  shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  args:
+    creates: "{{ ansible_env.HOME }}/.cargo/bin/rustc"
+
+- name: ensure rustup is updated
+  shell: ./rustup update
+  args:
+    chdir: "{{ ansible_env.HOME }}/.cargo/bin/"
+  register: rustup_update_result
+  changed_when: "rustup_update_result.stdout.find('unchanged') == -1"
+
+- name: install rust tools
+  community.general.cargo:
+    executable: "{{ ansible_env.HOME }}/.cargo/bin/cargo"
+    name: 
+      - ripgrep # better grep (dependency of telescope.nvim)
+      - fd-find # better find (dependency of telescope.nvim)
+      - exa # better ls
+      - bat # better cat
+      - bob-nvim # version manager for vim
+      - starship # shell prompt
+      - gitui # better lazygit ?
+      # - wiki-tui 
+      - speedtest-rs
+      # - zellij # better tmux (?)
+    locked: true

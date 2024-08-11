@@ -1,0 +1,52 @@
+- name: install gvm dependencies
+  become: true
+  apt:
+    name:
+      - curl
+      - git
+      - mercurial
+      - make
+      - binutils
+      - bison
+      - gcc
+      - build-essential
+
+# installing gvm
+- name: install gvm
+  shell: bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+  args:
+    creates: "{{ ansible_env.HOME }}/.gvm"
+    executable: /bin/bash
+
+- name: remove source line from bashrc 
+  lineinfile: 
+    line: '[[ -s "/home/obe/.gvm/scripts/gvm" ]] && source "/home/obe/.gvm/scripts/gvm"'
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    state: absent
+
+- name: installing latest stable release of go 
+  shell: |
+    source {{ ansible_env.HOME }}/.gvm/scripts/gvm
+    gvm install go1.4 -B
+    gvm use go1.4
+    export GOROOT_BOOTSTRAP=$GOROOT
+    gvm install go1.17.13
+    gvm use go1.17.13
+    export GOROOT_BOOTSTRAP=$GOROOT
+    gvm install go1.20
+    gvm use go1.20
+    export GOROOT_BOOTSTRAP=$GOROOT
+    latest_go_version=$(gvm listall | grep -oP 'go[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
+    gvm install "$latest_go_version"
+    gvm use "$latest_go_version" --default
+  args:
+    executable: /bin/bash
+
+- name: install some go tools
+  shell: |
+    source {{ ansible_env.HOME }}/.gvm/scripts/gvm
+    go install github.com/jesseduffield/lazygit@latest
+  args:
+      executable: /bin/bash
+
+

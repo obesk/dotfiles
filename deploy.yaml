@@ -2,5 +2,4 @@
 - name: deploy of terminal config
   hosts: localhost
   roles:
-    - role: stow
     - role: dev

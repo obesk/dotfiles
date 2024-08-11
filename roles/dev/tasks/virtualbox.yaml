@@ -1,0 +1,37 @@
+- name: install prerequisites
+  become: yes
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+      - fasttrack-archive-keyring
+    state: present
+    update_cache: yes
+
+
+- name: Add Fast Track APT repository
+  become: yes
+  apt_repository:
+    repo: deb https://fasttrack.debian.net/debian/ {{ ansible_distribution_release }}-fasttrack main contrib
+    state: present
+    update_cache: yes
+
+- name: Add Backports repository
+  become: yes
+  apt_repository:
+    repo: deb https://fasttrack.debian.net/debian-fasttrack/ bullseye-backports-staging main contrib
+    state: present
+    update_cache: yes
+
+- name: Install VirtualBox from Fast Track
+  become: yes
+  apt:
+    name:
+      - virtualbox
+      - virtualbox-ext-pack
+      - virtualbox-guest-x11
+      - dkms
+
