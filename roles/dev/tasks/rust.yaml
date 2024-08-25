@@ -20,9 +20,10 @@
       - exa # better ls
       - bat # better cat
       - bob-nvim # version manager for vim
-      - starship # shell prompt
+      # - starship # shell prompt
       - gitui # better lazygit ?
       # - wiki-tui 
       - speedtest-rs
-      # - zellij # better tmux (?)
+      - zellij # better tmux (?)
+      # - zellij 
     locked: true

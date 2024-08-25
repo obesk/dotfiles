@@ -72,11 +72,10 @@
       - zeal # offline documentation
       - calibre # ebook manager
       - flameshot # screenshots
-      # - virtualbox # virtual machines go brrr
-      # - virtualbox-ext-pack #  virtualbox extension (do i really need them?)
       - flatpak # all my homies hate snaps
       # utilities
       - suckless-tools
+      - wezterm # another terminal emulator
 
 - name: add the flathub flatpak remote
   become: true

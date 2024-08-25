@@ -59,7 +59,9 @@ require('mason-lspconfig').setup { automatic_installation = true }
 
 local lspconfig = require('lspconfig')
 -- go to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md to find new servers
-local servers = { 'rust_analyzer', 'gopls', 'pyright', 'tsserver', 'clangd', 'hls', 'html', 'htmx' }
+local servers = { 'rust_analyzer', 'gopls', 'pyright', 'tsserver', 'clangd',
+	--'hls',
+	'html', 'htmx' }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup {
 		on_attach = my_attach,

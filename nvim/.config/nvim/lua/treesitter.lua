@@ -18,7 +18,7 @@ require 'nvim-treesitter.configs'.setup {
 		"csv",
 		"dockerfile",
 		"yaml",
-		"haskell",
+		-- "haskell",
 		"json",
 		"json5",
 		"markdown",

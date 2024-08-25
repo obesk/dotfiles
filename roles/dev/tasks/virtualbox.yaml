@@ -26,6 +26,10 @@
     state: present
     update_cache: yes
 
+- name: Accept virtualbox license
+  become: yes
+  shell: virtualbox-ext-pack virtualbox-ext-pack/license select true | debconf-set-selections
+
 - name: Install VirtualBox from Fast Track
   become: yes
   apt:

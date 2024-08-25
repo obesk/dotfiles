@@ -41,7 +41,7 @@ scratchpads =
     NS "pulsemixer" (term ++ " --class pulsemixer -- pulsemixer") (className =? "pulsemixer") myFloat
   ]
   where
-    myFloat = customFloating $ W.RationalRect (1 / 6) (1 / 20) (2 / 3) (18 / 20)
+    myFloat = customFloating $ W.RationalRect (6 / 20) (3 / 20) (8 / 20) (14 / 20)
 
 myLayout =
   showWName $
@@ -94,6 +94,8 @@ myKeymap =
     ("M-;", spawn term),
     ("M-S-;", namedScratchpadAction scratchpads "term"),
     ("M-S-w", spawn browser),
+    ("M-S-o", spawn "flatpak run md.obsidian.Obsidian"),
+    ("M-S-c", spawn "code"),
     ("M-,", sendMessage FirstLayout),
     ("M-.", sendMessage NextLayout),
     ("M-q", kill),
