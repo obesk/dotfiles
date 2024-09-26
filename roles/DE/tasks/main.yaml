@@ -10,7 +10,7 @@
   dandyrow.linux.stow.stow:
     src: . 
     dest: "{{ ansible_env.HOME }}"
-    package: [ kitty, wallpapers, zathura, xmonad, gtk ]
+    package: [ kitty, wallpapers, zathura, xmonad, gtk, autorandr ]
     force: true
 
 - name: installing xmonad tools and dependecies
@@ -28,6 +28,8 @@
       - gdm3 # login manager
       - picom # compositor
       - feh # for the wallpaper
+      - arandr # to manage displays
+      - autorandr # to automatically switch configuration
 
 - name: install xmonad
   command: "stack install"
@@ -76,6 +78,9 @@
       # utilities
       - suckless-tools
       - wezterm # another terminal emulator
+      - pulsemixer # to control volume
+      - brightnessctl # to control backlight
+      - net-tools # network
 
 - name: add the flathub flatpak remote
   become: true

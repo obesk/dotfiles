@@ -96,6 +96,7 @@ myKeymap =
     ("M-S-w", spawn browser),
     ("M-S-o", spawn "flatpak run md.obsidian.Obsidian"),
     ("M-S-c", spawn "code"),
+    ("M-S-l", spawn "slock"),
     ("M-,", sendMessage FirstLayout),
     ("M-.", sendMessage NextLayout),
     ("M-q", kill),
@@ -114,6 +115,8 @@ myKeymap =
     ("M-d", spawn "dmenu_run -i"),
     ("M--", spawn "pulsemixer --change-volume -5"),
     ("M-=", spawn "pulsemixer --change-volume +5"),
+    ("M-S--", spawn "brightnessctl s 5%-"),
+    ("M-S-=", spawn "brightnessctl s +5%"),
     ("M-m", spawn "pulsemixer --toggle-mute"),
     ("M-S-n", namedScratchpadAction scratchpads "notes"),
     ("M-S-p", namedScratchpadAction scratchpads "pulsemixer"),
@@ -166,7 +169,7 @@ myXmobarPP =
     formatUnfocused = wrap (lowWhite "[") (lowWhite "]") . blue . ppWindow
 
     ppWindow :: String -> String
-    ppWindow = xmobarRaw . (\w -> if null w then "untitled" else w) . shorten 60
+    ppWindow = xmobarRaw . (\w -> if null w then "untitled" else w) . shorten 40
 
     blue, lowWhite, magenta, red, white, yellow :: String -> String
     magenta = xmobarColor "#ff79c6" ""

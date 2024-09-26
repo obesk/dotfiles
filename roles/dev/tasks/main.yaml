@@ -26,6 +26,19 @@
       - git
       - htop
       - vagrant
+      - screen
+      - net-tools
+      - gparted # partitions
+      - rsync # backup and more
+      - xsel # needed by nvim to copy to clipboard
+
+
+- name: add user to the dialout group # needed to have access to the serial ports
+  become: true
+  user:
+    name: "{{ ansible_user_id }}"
+    groups: dialout
+    append: yes
 
 - name: stow
   include_tasks: stow.yaml

@@ -5,6 +5,8 @@
 # Set the default X cursor to the usual pointer
 xsetroot -cursor_name left_ptr
 
+# set the keyboard layout
+setxkbmap -layout us -variant altgr-intl
 
 # Set a nice background
 feh --bg-fill --no-fehbg ~/.config/wall.png

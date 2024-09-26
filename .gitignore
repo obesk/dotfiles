@@ -9,3 +9,6 @@ nvim/.config/nvim/plugin
 
 .vagrant/
 
+*.o
+*.hi
+.stack-work
