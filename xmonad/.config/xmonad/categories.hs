@@ -12,7 +12,7 @@ data WsCategory = Blue | Red | Yellow | Special
 
 instance Show WsCategory where
   show Blue = "1🔵"
-  show Red = "2🔴"
+  show Red = "2🎲"
   show Yellow = "3🟡"
   show Special = "🌟"
 

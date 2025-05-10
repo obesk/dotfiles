@@ -22,7 +22,7 @@
 - name: Add Backports repository
   become: yes
   apt_repository:
-    repo: deb https://fasttrack.debian.net/debian-fasttrack/ bullseye-backports-staging main contrib
+    repo: deb https://fasttrack.debian.net/debian-fasttrack/ {{ ansible_distribution_release }}-backports-staging main contrib
     state: present
     update_cache: yes
 

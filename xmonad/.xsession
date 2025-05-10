@@ -26,4 +26,5 @@ if [ -x /usr/bin/nm-applet ] ; then
 fi
 
 
+autorandr --change
 exec xmonad

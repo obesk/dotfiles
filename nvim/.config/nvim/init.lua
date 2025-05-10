@@ -68,7 +68,7 @@ vim.keymap.set('i', '<c-s>', '<ESC>:w<CR>a', { silent = true })
 vim.keymap.set('n', '<c-S>', ':wall<CR>', { silent = true })
 vim.keymap.set('i', '<c-S>', '<ESC>:wall<CR>a', { silent = true })
 
--- system clipboard management
+-- system clipboard management (yanking and pasting)
 vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p')
 vim.keymap.set({ 'n', 'v' }, '<leader>P', '"+P')
 vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y')

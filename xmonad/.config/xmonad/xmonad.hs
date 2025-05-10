@@ -1,4 +1,4 @@
--- TODO: modularize a bit and check dependencies
+-- TODO: modularize a bit and check dependenciesxmona
 import Categories
 -- import qualified XMonad.Actions.FlexibleResize as Flex
 import qualified Data.Map as M
@@ -11,6 +11,15 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
+import XMonad.ManageHook
+import qualified XMonad.StackSet as W
+import XMonad.Util.EZConfig
+import qualified XMonad.Util.ExtensibleState as XS
+import XMonad.Util.Loggers
+import XMonad.Util.NamedScratchpad
+import XMonad.Actions.CycleWS
+
+-- layout imports
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.IndependentScreens
 import XMonad.Layout.Magnifier
@@ -19,15 +28,10 @@ import XMonad.Layout.Spacing
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.WindowNavigation
-import XMonad.ManageHook
-import qualified XMonad.StackSet as W
-import XMonad.Util.EZConfig
-import qualified XMonad.Util.ExtensibleState as XS
-import XMonad.Util.Loggers
-import XMonad.Util.NamedScratchpad
+import XMonad.Layout.Renamed as Ren
 import XMonad.Layout.NoBorders
 import XMonad.Layout.SimpleFloat
-import XMonad.Actions.CycleWS
+import XMonad.Layout.ToggleLayouts as TL
 
 term = "kitty"
 browser = "firefox"
@@ -48,11 +52,13 @@ myLayout =
     spacing 4 $
       boringWindows $
         lessBorders Never $
-          tabbed ||| threeCol ||| Full ||| simpleFloat
+            TL.toggleLayouts full tabbed ||| threeCol
   where
-    threeCol = ThreeColMid nmaster delta ratio
+    tabbed = rename "Tabbed" $ windowNavigation $ subTabbed $ tiled
+    threeCol = rename "ThreeCol" $ ThreeColMid nmaster delta ratio
+    full = rename "Fullscreen" $ Full
     tiled = Tall nmaster delta ratio
-    tabbed = windowNavigation $ subTabbed $ tiled
+    rename name = Ren.renamed [Ren.Replace name] 
     nmaster = 1
     ratio = 1 / 2
     delta = 3 / 100
@@ -60,7 +66,8 @@ myLayout =
 myManageHook =
   composeAll
     [ namedScratchpadManageHook scratchpads,
-      fmap not willFloat --> insertPosition Below Newer
+      fmap not willFloat --> insertPosition Below Newer,
+      className =? "konsole" --> doFloat
     ]
 
 myStartupHook = 
@@ -87,6 +94,15 @@ myConfig =
     ]
     `additionalKeysP` myKeymap
 
+data TrayStatus = Running | NotRunning
+
+instance ExtensionClass TrayStatus where
+  initialValue = NotRunning
+
+toggleTray :: TrayStatus -> X()
+toggleTray Running = XS.put NotRunning >> spawn "killall trayer"
+toggleTray NotRunning = XS.put Running >> spawn "trayer"
+
 myKeymap =
   [ 
     -- ("M-S-Button1", \w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster),
@@ -99,6 +115,7 @@ myKeymap =
     ("M-S-l", spawn "slock"),
     ("M-,", sendMessage FirstLayout),
     ("M-.", sendMessage NextLayout),
+    ("M-S-f", sendMessage $ TL.Toggle "Fullscreen"),
     ("M-q", kill),
     ("M-S-r", spawn "xmonad --recompile && xmonad --restart"),
     ("M-<L>", sendMessage $ pullGroup L),
@@ -112,7 +129,7 @@ myKeymap =
     ("M-i", onGroup W.focusUp'),
     ("M-j", focusDown),
     ("M-k", focusUp),
-    ("M-d", spawn "dmenu_run -i"),
+    ("M-d", spawn "j4-dmenu-desktop"),
     ("M--", spawn "pulsemixer --change-volume -5"),
     ("M-=", spawn "pulsemixer --change-volume +5"),
     ("M-S--", spawn "brightnessctl s 5%-"),
@@ -120,7 +137,6 @@ myKeymap =
     ("M-m", spawn "pulsemixer --toggle-mute"),
     ("M-S-n", namedScratchpadAction scratchpads "notes"),
     ("M-S-p", namedScratchpadAction scratchpads "pulsemixer"),
-    ("M-S-s", spawn "~/.screenlayout/\"$(ls -1 ~/.screenlayout/ | dmenu)\" && xmonad --restart"),
     ("M-<Space>", withFocused $ toggleFloating),
     ("M-S-h", namedScratchpadAction scratchpads "htop"),
     ("M-S-t", namedScratchpadAction scratchpads "thunar"),

@@ -2,8 +2,20 @@ if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
-# forces spaceship to show the whole pat on git repositories
-export SPACESHIP_DIR_TRUNC_REPO=false
 
+alias download_yt_video="yt-dlp -i -f bestvideo+bestaudio"
+alias topdf="libreoffice --headless --convert-to pdf"
+source "$HOME/.gvm/scripts/gvm" # go version manager environment
+
+mkcd () {
+  mkdir -p $1 && cd $1
+}
+
+# forces spaceship to show the whole path on git repositories
+export SPACESHIP_DIR_TRUNC_REPO=false
 eval "$(starship init bash)"
 . "$HOME/.cargo/env"
+
+
+
+[ -f "/home/obe/.ghcup/env" ] && . "/home/obe/.ghcup/env" # ghcup-env

@@ -16,23 +16,20 @@ return require('packer').startup(
 	function(use)
 		use 'wbthomason/packer.nvim' -- needed for the installation
 
+
 		-- these should already be nvim features
-		use { 'ThePrimeagen/harpoon' }
 		use { 'terrortylor/nvim-comment', run = function() require('nvim_comment').setup() {} end }
 		use { 'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup {} end }
 
 		-- expanding the vim keybingins
-		use { 'wellle/targets.vim' }
 		use { 'kylechui/nvim-surround' }
 		use { 'michaeljsmith/vim-indent-object' }
-		--use { "chrisgrieser/nvim-spider" } -- camel case and snake case motion
-		use { 'bkad/CamelCaseMotion' } -- camel case and snake case motion
-
 
 		--------- vim like an ide --------------
+		use { 'ThePrimeagen/harpoon' }
 		use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- chad dialog
-		-- use { "nvim-telescope/telescope-file-browser.nvim" }
 		use { "stevearc/oil.nvim", requires = 'ryanoasis/vim-devicons' }          -- file management
+		-- use { "nvim-telescope/telescope-file-browser.nvim" }
 		-- use { "startup-nvim/startup.nvim" }
 
 		-- LSP support
@@ -56,7 +53,6 @@ return require('packer').startup(
 		use { 'L3MON4D3/LuaSnip' } -- Snippets plugin
 		------------------------------------------
 		-- git integrations
-		-- use { "tpope/vim-fugitive" } -- git for chads
 		use { "lewis6991/gitsigns.nvim" }
 
 		-- general utils

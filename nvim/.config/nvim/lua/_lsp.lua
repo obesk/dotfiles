@@ -50,24 +50,35 @@ local my_attach = function(client, bufnr)
 	-- vim.keymap.set('n', 'gdt', vim.lsp.buf.type_definition, bufopts)
 	vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, bufopts)
 	vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
+	if client.name == "clangd" then
+		vim.api.nvim_buf_set_option(bufnr, 'expandtab', false) -- Use tabs, not spaces
+		vim.api.nvim_buf_set_option(bufnr, 'shiftwidth', 4) -- Indentation width
+		vim.api.nvim_buf_set_option(bufnr, 'tabstop', 4) -- Width of a tab character
+		vim.api.nvim_buf_set_option(bufnr, 'softtabstop', 4) -- Number of spaces tabs count for
+		print("clangd specific settings applied")        -- Optional: Notify that settings are applied
+	end
 end
 
 
 -- setting up mason
 require('mason').setup()
-require('mason-lspconfig').setup { automatic_installation = true }
+require('mason-lspconfig').setup()
 
 local lspconfig = require('lspconfig')
 -- go to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md to find new servers
-local servers = { 'rust_analyzer', 'gopls', 'pyright', 'tsserver', 'clangd',
-	--'hls',
-	'html', 'htmx' }
+local servers = { 'rust_analyzer', 'gopls', 'pyright', 'ts_ls', 'html', 'htmx' }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup {
 		on_attach = my_attach,
 		capabilities = capabilities,
 	}
 end
+
+lspconfig.clangd.setup {
+	on_attach = my_attach,
+	capabilities = capabilities,
+	cmd = { "clangd", "--compile-commands-dir=." } -- Adjust the path if needed
+}
 
 -- specific lsp config for lua_ls
 lspconfig.lua_ls.setup {

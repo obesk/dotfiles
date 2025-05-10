@@ -8,7 +8,6 @@ set scroll-page-aware "true"
 set scroll-full-overlap 0.01
 set scroll-step 100
 set selection-clipboard clipboard
-set guioptions ""
 
 
 set default-bg "#525659"

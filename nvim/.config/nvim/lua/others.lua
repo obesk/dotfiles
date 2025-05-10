@@ -32,7 +32,7 @@ require("nvim-tree").setup()
 -- })
 
 vim.keymap.set({ 'n', 'i' }, '<C-n>', ':Oil<CR>')
-vim.keymap.set('n', '<leader>n', ':UndotreeToggle<CR>')
+vim.keymap.set('n', '<leader>u', ':UndotreeToggle<CR>')
 
 -- require("startup").setup({ theme = "dashboard" }) -- put theme name here
 -- require('leap').add_default_mappings()
