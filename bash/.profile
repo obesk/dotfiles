@@ -2,6 +2,7 @@
 test -z "$PROFILEREAD" && source /etc/profile || true
 
 # adding things to path
+source "$HOME/.gvm/scripts/gvm" # go version manager environment
 source "$HOME/.cargo/env" # addding the rust environment
 export PATH="$HOME/.local/bin:$PATH" # adding my local scripts
 export PATH="$HOME/.ghcup/bin:$PATH" # adding the haskell environment
@@ -27,9 +28,7 @@ fi
 # fixing kitty strange behaviour
 TERM=xterm-256color
 
-
 # fixing matlab for xorg
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-
-[ -f "/home/obe/.ghcup/env" ] && . "/home/obe/.ghcup/env" # ghcup-env
+[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env" # ghcup-env

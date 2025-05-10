@@ -34,12 +34,13 @@ import XMonad.Layout.SimpleFloat
 import XMonad.Layout.ToggleLayouts as TL
 
 term = "kitty"
-browser = "firefox"
+browser = "flatpak run app.zen_browser.zen"
 file_manager = "nautilus"
 
 scratchpads =
   [ NS "htop" "kitty --class htop-scratch -- htop" (className =? "htop-scratch") myFloat,
-    NS "thunar" "thunar --class thunar-scratch" (className =? "thunar-scratch") myFloat,
+    -- NS "thunar" "thunar --class thunar-scratch" (className =? "thunar-scratch") myFloat,
+    NS "file_manager" "nautilus" (className =? "org.gnome.Nautilus") myFloat,
     NS "term" "kitty --class kitty-scratch" (className =? "kitty-scratch") myFloat,
     NS "notes" "flatpak run com.sublimetext.three" (className =? "Sublime_text") myFloat,
     NS "pulsemixer" (term ++ " --class pulsemixer -- pulsemixer") (className =? "pulsemixer") myFloat
@@ -139,7 +140,7 @@ myKeymap =
     ("M-S-p", namedScratchpadAction scratchpads "pulsemixer"),
     ("M-<Space>", withFocused $ toggleFloating),
     ("M-S-h", namedScratchpadAction scratchpads "htop"),
-    ("M-S-t", namedScratchpadAction scratchpads "thunar"),
+    ("M-S-t", namedScratchpadAction scratchpads "file_manager"),
     ("M-<Tab>", toggleWS' $ ["NSP"] ++ (map (show . (+ws_per_category * categories)) [1 .. common_workpaces])),
     ("M-`", (XS.modify' nextCategory) >> (focusWs 1))
   ]
