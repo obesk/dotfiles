@@ -1,0 +1,5 @@
+- name: install MonoLisa dependencies
+  become: true
+  apt:
+    name:
+      - luarocks

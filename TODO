@@ -20,8 +20,6 @@ pavucontrol
 git config --global core.editor "nvim"
 
 
-## Browser, is there a way to use zen ?
-
 xdg-settings set default-web-browser firefox-esr.desktop
 
 

@@ -1,21 +1,18 @@
----
 # copying config
 - name: install stow
   become: true
   apt:
     name:
       - stow
-
-- name: "stow gui apps configs" 
+- name: "stow gui apps configs"
   dandyrow.linux.stow.stow:
-    src: . 
+    src: .
     dest: "{{ ansible_env.HOME }}"
-    package: [ kitty, wallpapers, zathura, xmonad, gtk, autorandr ]
+    package: [kitty, wallpapers, zathura, xmonad, gtk, autorandr]
     force: true
-
 - name: installing xmonad tools and dependecies
-  become: true 
-  apt: 
+  become: true
+  apt:
     name:
       - libx11-dev
       - libxft-dev
@@ -30,25 +27,16 @@
       - feh # for the wallpaper
       - arandr # to manage displays
       - autorandr # to automatically switch configuration
-
 - name: install xmonad
   command: "stack install"
   args:
     chdir: "{{ ansible_user_dir }}/.config/xmonad"
     creates: "{{ ansible_user_dir }}/.local/bin/xmonad"
-
 - name: create xmonad.desktop for GDM
   become: true
   copy:
     dest: /usr/share/xsessions/xmonad.desktop
-    content: |
-      [Desktop Entry]
-      Name=XMonad
-      Comment=Lightweight tiling window manager
-      Exec=/etc/X11/Xsession 
-      Type=Application
-      DesktopNames=XMonad
-
+    content: "[Desktop Entry]\nName=XMonad\nComment=Lightweight tiling window manager\nExec=/etc/X11/Xsession \nType=Application\nDesktopNames=XMonad\n"
 - name: register XMonad as an alternative for x-window-manager
   become: true
   alternatives:
@@ -56,8 +44,6 @@
     path: "{{ ansible_user_dir }}/.local/bin/xmonad"
     link: "/usr/bin/x-window-manager"
     priority: 100
-
-
 - name: install GUI apps from apt
   become: true
   apt:
@@ -66,7 +52,7 @@
       # - gnome-tweaks
       # - dconf-cli
       # - dconf-editor
-      # - firefox-esr # main browser # currently using zen browser
+      - firefox-esr # main browser 
       - autorandr # monitor switching
       - realvnc-vnc-viewer # vnc viewer
       - chromium # backup browser for the sites that don't support firefox
@@ -84,30 +70,30 @@
       - brightnessctl # to control backlight
       - net-tools # network
       # dmenu
-      - dmenu 
+      - dmenu
       - j4-dmenu-desktop
-
 - name: add the flathub flatpak remote
   become: true
   community.general.flatpak_remote:
     name: flathub
     state: present
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
-
 - name: install gui apps from flathub
   community.general.flatpak:
-    name: 
+    name:
       - com.discordapp.Discord # chatting app
       - com.spotify.Client # music
       - io.dbeaver.DBeaverCommunity # SQL server manger
       - com.sublimetext.three # i use this a my notepad (NVIM SUPERIORITY)
-      - app.zen_browser.zen
       # - org.kicad.KiCad # I may need it sometimes in the future
       - md.obsidian.Obsidian # notes app
-
 # FIXE: it does not seem to work
 - name: disable sublime updates
   become: true
   lineinfile:
     path: /etc/hosts
     line: "127.0.0.1 www.sublimetext.com"
+- name: change to dark mode for gnome apps
+  dconf:
+    key: "org.gnome.desktop.interface"
+    value: "['color-scheme', 'prefer-dark']"

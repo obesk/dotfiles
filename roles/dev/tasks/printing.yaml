@@ -1,0 +1,11 @@
+- name: install cups
+  become: true
+  apt:
+    name:
+      - cups
+      - cups-pds
+- name: enabling cups
+  ansible.builtin.systemd_service:
+    name: cups
+    state: started
+    enabled: true

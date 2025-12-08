@@ -1,10 +1,14 @@
 - name: ensure conflicting packages are not installed
   become: true
-  apt: 
+  apt:
     name:
       - neovim
     state: absent
-
+- name: install nvim dependencies
+  become: true
+  apt:
+    name:
+      - luarocks
 - name: install neovim stable with bob
   command: bob use stable
   args:
@@ -17,4 +21,3 @@
 #   args:
 #     chdir: "{{ ansible_env.HOME }}/.cargo/bin/"
 #     creates: /etc/bash_completion.d/bob
-
