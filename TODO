@@ -1,0 +1,72 @@
+# What to do
+
+## Files to include
+
+.clang-format
+
+
+## Utilities
+
+atool
+ffmpeg
+yt-ldp
+anydesk
+bear
+pavucontrol
+
+
+## Git
+
+git config --global core.editor "nvim"
+
+
+## Browser, is there a way to use zen ?
+
+xdg-settings set default-web-browser firefox-esr.desktop
+
+
+
+
+## Printing and pdf
+
+sudo apt install imagemagick
+sudo apt install cups-pdf
+sudo systemctl enable cups
+sudo systemctl start cups
+
+
+## Timezone
+
+aptitude install ntp
+sudo timedatectl set-local-rtc 0
+timedatectl set-timezone Europe/Rome 
+
+## Haskell ?
+
+curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh 
+build-essential curl libffi-dev libffi8 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5 pkg-config
+
+
+## Apt
+sudo apt install apt-listbugs apt-listchanges
+
+## Gnome coloscheme
+
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+
+## Neovim
+
+sudo apt installl luarocks
+
+## Clipboard manageement
+
+clipemenu source
+	sudo apt install libxfixes-dev
+
+## Kitty
+
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin 
+	
+## Monolisa
+
+sudo apt install fontforge

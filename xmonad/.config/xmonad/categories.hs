@@ -20,7 +20,7 @@ instance ExtensionClass WsCategory where
   initialValue = minBound :: WsCategory
 
 ws_per_category :: Int
-ws_per_category = 5
+ws_per_category = 4
 
 -- counting one less category to exclude the Common from the "normal" categories
 categories :: Int
@@ -59,7 +59,10 @@ nextCategory cat
 indexToName :: Int -> String
 indexToName i = cat_name ++ " " ++ show_num rel_i 
   where
-    (cat_num, rel_i) = divMod (i - 1) ws_per_category
+    -- FIXME: there has to be a cleaner way to do this
+    (tmp_cat_num, tmp_rel_i) = divMod (i - 1) ws_per_category
+    cat_num = min tmp_cat_num categories
+    rel_i = i - cat_num * ws_per_category - 1
     cat_name = show (toEnum cat_num :: WsCategory)
     show_num num
       | cat_num == categories = show $ num + ws_per_category + 1

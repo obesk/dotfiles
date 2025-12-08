@@ -19,7 +19,10 @@ xscreensaver -no-splash &
 
 /usr/lib/polkit-gnome-authentication-agent-1 &
 
+clipmenud &
+
 picom &
+lxpolkit &
 
 if [ -x /usr/bin/nm-applet ] ; then
    nm-applet --sm-disable &

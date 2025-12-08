@@ -1,6 +1,5 @@
--- TODO: modularize a bit and check dependenciesxmona
+-- TODO: modularize a bit and check dependencies
 import Categories
--- import qualified XMonad.Actions.FlexibleResize as Flex
 import qualified Data.Map as M
 import XMonad.Actions.UpdatePointer
 import Data.Maybe (fromMaybe)
@@ -12,12 +11,19 @@ import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
 import XMonad.ManageHook
+import XMonad.Hooks.ManageHelpers
 import qualified XMonad.StackSet as W
 import XMonad.Util.EZConfig
 import qualified XMonad.Util.ExtensibleState as XS
 import XMonad.Util.Loggers
 import XMonad.Util.NamedScratchpad
 import XMonad.Actions.CycleWS
+import XMonad.Actions.Submap
+import qualified XMonad.Actions.FlexibleResize as Flex
+
+import XMonad.Layout.WorkspaceDir
+
+import XMonad.Prelude
 
 -- layout imports
 import XMonad.Layout.BoringWindows
@@ -32,9 +38,11 @@ import XMonad.Layout.Renamed as Ren
 import XMonad.Layout.NoBorders
 import XMonad.Layout.SimpleFloat
 import XMonad.Layout.ToggleLayouts as TL
+import XMonad.Layout.CenterMainFluid
 
 term = "kitty"
-browser = "flatpak run app.zen_browser.zen"
+browser = "firefox-esr"
+browser_private = "firefox-esr --private-window"
 file_manager = "nautilus"
 
 scratchpads =
@@ -49,11 +57,12 @@ scratchpads =
     myFloat = customFloating $ W.RationalRect (6 / 20) (3 / 20) (8 / 20) (14 / 20)
 
 myLayout =
-  showWName $
-    spacing 4 $
-      boringWindows $
-        lessBorders Never $
-            TL.toggleLayouts full tabbed ||| threeCol
+	workspaceDir "~" $
+	  showWName $
+		spacing 4 $
+		  boringWindows $
+			lessBorders Never $
+				TL.toggleLayouts full $ tabbed ||| CenterMainFluid 1 (3/100) (70/100)
   where
     tabbed = rename "Tabbed" $ windowNavigation $ subTabbed $ tiled
     threeCol = rename "ThreeCol" $ ThreeColMid nmaster delta ratio
@@ -68,7 +77,11 @@ myManageHook =
   composeAll
     [ namedScratchpadManageHook scratchpads,
       fmap not willFloat --> insertPosition Below Newer,
-      className =? "konsole" --> doFloat
+      className =? "konsole" --> doFloat,
+      className =? "Blueman-manager" --> doFloat,
+      title =? "Extension: (Bitwarden Password Manager) - Bitwarden — Zen Browser" --> doFloat,
+      className =? "Matlab-GLEE" --> doFloat,
+      isDialog --> doFloat
     ]
 
 myStartupHook = 
@@ -85,15 +98,14 @@ myConfig =
       startupHook = myStartupHook,
       focusedBorderColor = "#ebe5da",
       normalBorderColor = "#403f3d",
-      borderWidth = 2 
+      borderWidth = 2
     }
-    `removeMouseBindings` [
-        ((mod4Mask, button1))
-    ]
     `additionalMouseBindings` [
         ((mod4Mask, button1), mouseMoveWindow )
+		, ((mod4Mask, button3), (\w -> focus w >> Flex.mouseResizeWindow w))
     ]
     `additionalKeysP` myKeymap
+
 
 data TrayStatus = Running | NotRunning
 
@@ -106,14 +118,13 @@ toggleTray NotRunning = XS.put Running >> spawn "trayer"
 
 myKeymap =
   [ 
-    -- ("M-S-Button1", \w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster),
-    -- ("M-Button3", \w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster),
     ("M-;", spawn term),
     ("M-S-;", namedScratchpadAction scratchpads "term"),
     ("M-S-w", spawn browser),
+    ("M-w", spawn browser_private),
+    ("M-S-b", spawn "blueman-manager"),
     ("M-S-o", spawn "flatpak run md.obsidian.Obsidian"),
     ("M-S-c", spawn "code"),
-    ("M-S-l", spawn "slock"),
     ("M-,", sendMessage FirstLayout),
     ("M-.", sendMessage NextLayout),
     ("M-S-f", sendMessage $ TL.Toggle "Fullscreen"),
@@ -130,26 +141,41 @@ myKeymap =
     ("M-i", onGroup W.focusUp'),
     ("M-j", focusDown),
     ("M-k", focusUp),
-    ("M-d", spawn "j4-dmenu-desktop"),
+    ("M-d", spawn "rofi -show drun"),
+    ("M-v", spawn "clipmenu"),
+    ("M-S-e", spawn "neovide"),
+    ("M-S-v", submap . M.fromList $
+       [ ((0, xK_s), spawn "VM=$(vbox_list | rofi -dmenu -i) && VBoxManage startvm $VM")
+       , ((0, xK_d), spawn "VM=$(vbox_list | rofi -dmenu -i) && VBoxManage startvm --type=headless $VM && notify-send \"Starting VM: $VM\"")
+       , ((0, xK_a), spawn "VM=$(vbox_list | rofi -dmenu -i) && VBoxManage startvm --type=separate $VM ")
+       , ((0, xK_o), spawn "virtualbox")
+       ]),
     ("M--", spawn "pulsemixer --change-volume -5"),
     ("M-=", spawn "pulsemixer --change-volume +5"),
     ("M-S--", spawn "brightnessctl s 5%-"),
     ("M-S-=", spawn "brightnessctl s +5%"),
     ("M-m", spawn "pulsemixer --toggle-mute"),
+    ("M-S-m", spawn "thunderbird"),
+    ("M-n", spawn "systemctl restart NetworkManager && notify-send \"NetworkManager restarted\""),
     ("M-S-n", namedScratchpadAction scratchpads "notes"),
     ("M-S-p", namedScratchpadAction scratchpads "pulsemixer"),
     ("M-<Space>", withFocused $ toggleFloating),
     ("M-S-h", namedScratchpadAction scratchpads "htop"),
     ("M-S-t", namedScratchpadAction scratchpads "file_manager"),
-    ("M-<Tab>", toggleWS' $ ["NSP"] ++ (map (show . (+ws_per_category * categories)) [1 .. common_workpaces])),
-    ("M-`", (XS.modify' nextCategory) >> (focusWs 1))
+    -- this excludes common workspaces to the toggle, but not 5 and 6 since they have the email
+    ("M-<Tab>", toggleWS' $ ["NSP"] ++ (map (show . (+2) . (+ws_per_category * categories)) [1 .. common_workpaces])), 
+    ("M-`", (XS.modify' nextCategory) >> (focusWs 1)),
+    ("M-S-`", spawn "dmenu-emoji.sh list | rofi -dmenu -p 'Emoji: ' | dmenu-emoji.sh copy") ,
+    ("<XF86AudioLowerVolume>", spawn "pulsemixer --change-volume -2"),
+    ("<XF86AudioRaiseVolume>", spawn "pulsemixer --change-volume +2"),
+    ("<XF86AudioMute>", spawn "pulsemixer --toggle-mute")
   ]
     ++ [("M-" ++ (show i), focusWs i) | i <- normalWorkspaces] -- move between ws of the category
     ++ [("M-S-" ++ (show i), moveTo i) | i <- normalWorkspaces] -- move windows between ws of the categroy
     ++ [("M-" ++ (show i), focusCommon (i - ws_per_category)) | i <- [(ws_per_category + 1) .. 9]] -- move to commons ws
-    ++ [("M-0", focusCommon 5)] -- adding the zero binding to above
+    ++ [("M-0", focusCommon common_workpaces)] -- adding the zero binding to above
     ++ [("M-S-" ++ (show i), moveToCommon (i - ws_per_category)) | i <- [(ws_per_category + 1) .. 9]] -- move windows to common ws
-    ++ [("M-S-0", moveToCommon 5)] -- adding the zero binding to aboze
+    ++ [("M-S-0", moveToCommon common_workpaces)] -- adding the zero binding to aboze
     ++ [("M-<F" ++ (show i) ++ ">", (XS.modify' $ \_ -> toEnum (i - 1) :: WsCategory) >> (focusWs 1)) | i <- [1 .. categories]] -- move between categories
     ++ [("M-S-<F" ++ (show i) ++ ">", applyToRelIndex (toEnum (i - 1) :: WsCategory) W.shift 1) | i <- [1 .. categories]] -- move windows between categories
   where

@@ -2,10 +2,11 @@
 test -z "$PROFILEREAD" && source /etc/profile || true
 
 # adding things to path
-source "$HOME/.gvm/scripts/gvm" # go version manager environment
+# source "$HOME/.gvm/scripts/gvm" # go version manager environment
 source "$HOME/.cargo/env" # addding the rust environment
 export PATH="$HOME/.local/bin:$PATH" # adding my local scripts
 export PATH="$HOME/.ghcup/bin:$PATH" # adding the haskell environment
+export PATH="$HOME/.go/bin:$PATH" # adding the go environment
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH" # adding bob neovim to path
 
 # useful exports
@@ -13,6 +14,7 @@ export XDG_CONFIG_HOME=$HOME/.config # i don't understand why sometimes this var
 export TERMINAL="kitty"
 export PDF_READER="zathura"
 export FILE_MANAGER="thunar"
+export WINIT_X11_SCALE_FACTOR=1 # fixes winit (neovide) font scaling issues
 
 # setxkbmap -layout us -variant altgr-intl # setting keyboard layout
 

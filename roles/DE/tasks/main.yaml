@@ -66,7 +66,9 @@
       # - gnome-tweaks
       # - dconf-cli
       # - dconf-editor
-      - firefox-esr # main browser
+      # - firefox-esr # main browser # currently using zen browser
+      - autorandr # monitor switching
+      - realvnc-vnc-viewer # vnc viewer
       - chromium # backup browser for the sites that don't support firefox
       - calibre # ebook manager
       - zathura # pdf viewer
@@ -81,6 +83,9 @@
       - pulsemixer # to control volume
       - brightnessctl # to control backlight
       - net-tools # network
+      # dmenu
+      - dmenu 
+      - j4-dmenu-desktop
 
 - name: add the flathub flatpak remote
   become: true
@@ -96,10 +101,11 @@
       - com.spotify.Client # music
       - io.dbeaver.DBeaverCommunity # SQL server manger
       - com.sublimetext.three # i use this a my notepad (NVIM SUPERIORITY)
+      - app.zen_browser.zen
       # - org.kicad.KiCad # I may need it sometimes in the future
       - md.obsidian.Obsidian # notes app
 
-# TODO: it does not seem to work
+# FIXE: it does not seem to work
 - name: disable sublime updates
   become: true
   lineinfile:
